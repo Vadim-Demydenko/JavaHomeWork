@@ -9,8 +9,9 @@ import java.util.Scanner;
 public class Anagram {
  // функкция вводит строку от пользователя
     static String inputStr(){
+        String str = "";
         Scanner scan = new Scanner(System.in);
-        String str = scan.nextLine();
+        str = scan.nextLine();
         return str;
     }
     //функция модифицирует строку, оставляя только буквы, переводит
@@ -21,16 +22,14 @@ public class Anagram {
 
         // оставили только буквы
         for (int i = 0; i < chAray.length; i++){
-            if (Character.isLetter(chAray[i])){
+            if  ((Character.isLetter(chAray[i])) && (!(Character.isWhitespace(chAray[i]))) ) {
                 chArayModif[i] = chAray[i];
             }
 
-
         }
-
-        str = new String(chArayModif);
+        str = new String(chArayModif); //массив в строку
         str = str.toLowerCase(Locale.ROOT); //перевели в нижний регистр
-        chArayModif = str.toCharArray();
+        chArayModif = str.toCharArray(); //строку в массив
         Arrays.sort(chArayModif);    // отсортировали
         return (new String(chArayModif));
     }
@@ -42,8 +41,10 @@ public class Anagram {
         str1 = inputStr();
         System.out.println("Введите вторую строку ");
         str2 = inputStr();
+
         str1 = modifStr(str1);
         str2 = modifStr(str2);
+        char[] chstr2 = str2.toCharArray();
         System.out.println("строка 1 " + str1);
         System.out.println("строка 2 " + str2);
         if ( str2.equals(str1)){
