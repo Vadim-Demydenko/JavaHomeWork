@@ -25,8 +25,8 @@ public class Anagram {
             if  ((Character.isLetter(chAray[i])) && (!(Character.isWhitespace(chAray[i]))) ) {
                 chArayModif[i] = chAray[i];
             }
-
         }
+
         str = new String(chArayModif); //массив в строку
         str = str.toLowerCase(Locale.ROOT); //перевели в нижний регистр
         chArayModif = str.toCharArray(); //строку в массив
@@ -44,7 +44,6 @@ public class Anagram {
 
         str1 = modifStr(str1);
         str2 = modifStr(str2);
-        char[] chstr2 = str2.toCharArray();
         System.out.println("строка 1 " + str1);
         System.out.println("строка 2 " + str2);
         if ( str2.equals(str1)){
