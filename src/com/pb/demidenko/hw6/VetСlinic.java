@@ -13,12 +13,11 @@ public class VetСlinic {
         animals[1] = dog;
         animals[2] = horse;
 
-/*
+
         Class compClazz = Class.forName("com.pb.demidenko.hw6.Veterinarian");
-        Constructor constr = compClazz.getConstructor(new Class[]{String.class});
-        Object obj = constr.newInstance();
-*/
-        Veterinarian veterinarian = new Veterinarian();
+        Object obj = compClazz.newInstance();
+        Veterinarian veterinarian = (Veterinarian) obj;
+
 
         for (Animal animal : animals) {
             System.out.println("-----------------------------------------------------");

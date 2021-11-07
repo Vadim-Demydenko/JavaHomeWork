@@ -2,7 +2,7 @@ package com.pb.demidenko.hw6;
 
 public class Veterinarian {
     Veterinarian(){
-
+        System.out.println("Veterinarian создан");
     }
 
     void treatAnimal(Animal animal){
