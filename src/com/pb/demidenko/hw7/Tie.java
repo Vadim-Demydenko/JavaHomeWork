@@ -7,6 +7,6 @@ public class Tie extends Clothes implements ManClothes{
 
     @Override
     public void dressMan(){
-        System.out.println("Брюки мужские: размер " + sizeClothes + " цена " + price +" цвет " + strColorCl);
+        System.out.println("Галстук мужской: размер " + sizeClothes + " цена " + price +" цвет " + strColorCl);
     }
 }
