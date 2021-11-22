@@ -9,20 +9,22 @@ public class Auth {
 
     public void signUp (String login,String password, String confirmPassword ) throws WrongPasswordException, WrongLoginException {
         String pattern;//проверка на буквы лвтиницы, цифры
-        pattern = "[A-Za-z0-9]";
-        Pattern ptrn = Pattern.compile(pattern);
+      //  pattern = "[^A-Za-z0-9]";
+        Pattern ptrn = Pattern.compile("[^A-Za-z0-9]");
             Matcher matcher = ptrn.matcher(login);
-            if ((login.length() >= 5 ) && (login.length() <= 20 ) && (matcher.find())){
+            boolean bul = matcher.matches();
+            boolean bul2 = matcher.find();
+            if ((login.length() >= 5 ) && (login.length() <= 20 ) && !(matcher.find())){
                 this.login = login;
             }else {
                 throw new WrongLoginException();
             }
 
-             pattern = "[A-Za-z0-9_]";//проверка на буквы лвтиницы, цифры и подчеркивание
+             pattern = "[^A-Za-z0-9_]";//проверка на буквы лвтиницы, цифры и подчеркивание
 
              ptrn = Pattern.compile(pattern);
              matcher = ptrn.matcher(password);
-            if ((password.length() > 5 ) &&  (matcher.find()) && (password.equals(confirmPassword))){
+            if ((password.length() > 5 ) &&  !(matcher.find()) && (password.equals(confirmPassword))){
                 this.password = password;
                 System.out.println("Поздравляем, регистрация успешна!!!");
             }else {
