@@ -67,12 +67,12 @@ public   class FileNumbers {
 
 // Читаем строку по меткам пробел между числами и преоразуем в число для проверки
 // на четность
-        String rezultStr = "";
+        String rezultStr = "", str;
         int i = 0, k = 0;
         Scanner scan = new Scanner(lineStrStr);
         scan.useDelimiter(" ");
         while (scan.hasNext()){
-            String str = scan.next();
+             str = scan.next();
 //            System.out.println(str);
             try{
                 i = Integer.parseInt(str);
