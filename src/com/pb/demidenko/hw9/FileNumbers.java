@@ -7,11 +7,23 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class FileNumbers {
+public   class FileNumbers {
 
-    public static  void createNumbersFile() {
+    private  static final Logger  LOGGER = Logger.getLogger(FileNumbers.class.getName());
+
+    public   void createNumbersFile() {
+
+        LOGGER.setLevel(Level.ALL);
+        ConsoleHandler consoleHandler = new ConsoleHandler();
+        consoleHandler.setLevel(Level.ALL);
+        LOGGER.addHandler(consoleHandler);
+        LOGGER.entering(getClass().getName(),"createOddNumbersFile");
         String arrayDigit = "";
+
 
 //      Формируем строку по 10 чисел от 0 - 99 в строке из 10 строк
         for (int k = 0; k < 10; k++) {
@@ -30,8 +42,10 @@ public class FileNumbers {
            writer.write(arrayDigit);
        } catch (Exception ex) {
            System.out.println("Ошибка при записи в файл: " + ex);
+           LOGGER.log(Level.SEVERE,"Ошибка при записи в файл: ",ex);
        }
        System.out.println("Запись в файл \"" + path.toAbsolutePath() + "\" успешна!");
+       LOGGER.exiting(getClass().getName(),"createNumbersFile");
    }
 
 
@@ -90,7 +104,8 @@ public class FileNumbers {
     }
 
    public static void main(String[] args) {
-       createNumbersFile();
-       createOddNumbersFile();
+       FileNumbers fileNumbers = new FileNumbers();
+           fileNumbers.createNumbersFile();
+       fileNumbers.createOddNumbersFile();
     }
 }
