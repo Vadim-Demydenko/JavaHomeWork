@@ -46,21 +46,24 @@ public class TestPhoneNumber {
     static void editAbonent(List<PhoneNumber> phoneNumbers) {
         PhoneNumber phone;
         int addressInsert;
-        String fio;
+        String fio = "123";
         Scanner scan = new Scanner(System.in);
         while (1 > 0) {
             System.out.println("Введите ФИО абонента для редактирования или любой символ для выхода");
             fio = scan.nextLine();
+
             if ((fio.length()) > 1) {
-                for (int i = 0; phoneNumbers.size() < i; i++) {
+                for (int i = 0; phoneNumbers.size() > i; i++) {
                     phone = phoneNumbers.get(i);
                     if (phone.getName().equals(fio)) {
                         System.out.println("Абонент найден " + phoneNumbers.get(i));
                         //запомнили позицию вставки отредактированного эл-та
-                        addressInsert = i;
+                        System.out.println("Введите данные дляредактирования");
 
                         //обновить элемент  по индексу
-                        phoneNumbers.set(i, phone);
+                        phoneNumbers.set(i, addAbonent());
+                        System.out.println("Данные по аоненту оновлены");
+
                     } else {
                         System.out.println("Аонент для редактирования не найден");
                     }
@@ -89,6 +92,7 @@ public class TestPhoneNumber {
                                           }
                                       }
                 );
+
             } else break;
 
         }
@@ -104,7 +108,7 @@ public class TestPhoneNumber {
             if ((fio.length()) > 1) {
                 for (PhoneNumber phone : phoneNumbers) {
                     if (fio.equals(phone.getName())) {
-                        System.out.println("Абонент найден " + phoneNumbers);
+                        System.out.println("Абонент найден " +  phone);
                     }
                 }
 
@@ -115,6 +119,7 @@ public class TestPhoneNumber {
     // сортировка списка абонентов по фио
 
     static void sortAbonent(List<PhoneNumber> phoneNumbers) {
+        System.out.println("Список абонентов до сортировки: "+ phoneNumbers);
         phoneNumbers.sort(new Comparator<PhoneNumber>() {
                               @Override
                               public int compare(PhoneNumber o1, PhoneNumber o2) {
@@ -122,7 +127,9 @@ public class TestPhoneNumber {
                               }
                           }
         );
+        System.out.println("Список абонентов после сортировки: "+ phoneNumbers);
     }
+
 
 
     public static void main(String[] args) {
@@ -133,14 +140,15 @@ public class TestPhoneNumber {
 
         boolean a = true;
         while (a) {
-            System.out.println("Введите: \n1 для ввода абонентов " +
-                    "\n 2 для удаления \n 3 для поиска абонента \n 4 для сортировки 5 для редактирования и 0 для выхода");
+            System.out.println("Введите:  \n 1 для ввода абонентов " +
+                    "\n 2 для удаления \n 3 для поиска абонента \n 4 для сортировки \n 5 для редактирования \n 0 для выхода");
 
             int i = 0;
             i = scan.nextInt();
             switch (i) {
                 case 1:
                     phoneNumbers.add(addAbonent());
+                    System.out.println(phoneNumbers);
                     break;
                 case 2:
                     delAbonent(phoneNumbers);
