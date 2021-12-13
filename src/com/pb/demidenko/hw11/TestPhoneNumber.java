@@ -9,49 +9,73 @@ import java.util.function.Predicate;
 
 public class TestPhoneNumber {
 
-    public static void main(String[] args) {
+    // Добавление элемента
+    static PhoneNumber addAbonent() {
 
-        List<PhoneNumber> phoneNumbers = new ArrayList<>();
         String fio = "123";
-        List<String> numberPh = new ArrayList<>();
-        String dateOfBerth;
         String number = "123";
         String address;
+        String dateOfBerth;
         LocalDate timeEdit;
-
+        List<String> numberPh = new ArrayList<>();
         Scanner scan = new Scanner(System.in);
 
+        System.out.println("Введите ФИО ");
+        fio = scan.nextLine();
+        while ((number.length()) > 1) {
+            System.out.println("Введите номер телефона абонента или любую цифру для перехода далее");
+            number = scan.nextLine();
+            if ((number.length()) > 1)
+                numberPh.add(number);
+        }
+        System.out.println("Введите дату рождения аонента");
+        dateOfBerth = scan.nextLine();
+
+        System.out.println("Введите адрес абонента");
+        address = scan.nextLine();
+        timeEdit = LocalDate.now(); //время ред-я
+        PhoneNumber phoneNumber = new PhoneNumber(fio, numberPh, dateOfBerth, address, timeEdit);
+//        phoneNumbers.add(phoneNumber); //
+//        System.out.println(phoneNumbers);
+        return phoneNumber;
+
+
+    }
+
+    //редактирование элемента
+    static void editAbonent(List<PhoneNumber> phoneNumbers) {
+        PhoneNumber phone;
+        int addressInsert;
+        String fio;
+        Scanner scan = new Scanner(System.in);
         while (1 > 0) {
-            System.out.println("Введите ФИО абонента или любой символ для выхода");
+            System.out.println("Введите ФИО абонента для редактирования или любой символ для выхода");
             fio = scan.nextLine();
             if ((fio.length()) > 1) {
-                //       fio = scan.nextLine();
-                while ((number.length()) > 1) {
-                    System.out.println("Введите номер телефона абонента или 1 для перехода далее");
-                    number = scan.nextLine();
-                    if ((number.length()) > 1)
-                        numberPh.add(number);
+                for (int i = 0; phoneNumbers.size() < i; i++) {
+                    phone = phoneNumbers.get(i);
+                    if (phone.getName().equals(fio)) {
+                        System.out.println("Абонент найден " + phoneNumbers.get(i));
+                        //запомнили позицию вставки отредактированного эл-та
+                        addressInsert = i;
 
-
+                        //обновить элемент  по индексу
+                        phoneNumbers.set(i, phone);
+                    } else {
+                        System.out.println("Аонент для редактирования не найден");
+                    }
                 }
-                System.out.println("Введите дату рождения аонента");
-                dateOfBerth = scan.nextLine();
-
-                System.out.println("Введите адрес абонента");
-                address = scan.nextLine();
-                timeEdit = LocalDate.now(); //время ред-я
-                PhoneNumber phoneNumber = new PhoneNumber(fio, numberPh, dateOfBerth, address, timeEdit);
-                phoneNumbers.add(phoneNumber); //
-                        System.out.println(phoneNumbers);
 
             } else break;
 
-
         }
+    }
 
-        //  удаление абонента по ФИО
+    //  удаление абонента по ФИО
 
-
+    static void delAbonent(List<PhoneNumber> phoneNumbers) {
+        String fio;
+        Scanner scan = new Scanner(System.in);
         while (1 > 0) {
             System.out.println("Введите ФИО абонента для удаления или любой символ для выхода");
             fio = scan.nextLine();
@@ -68,32 +92,74 @@ public class TestPhoneNumber {
             } else break;
 
         }
+    }
 
-        // поиск элемента
-
+    // поиск элемента
+    static void findAbonent(List<PhoneNumber> phoneNumbers) {
+        String fio;
+        Scanner scan = new Scanner(System.in);
         while (1 > 0) {
             System.out.println("Введите ФИО абонента для поиска или любой символ для выхода");
             fio = scan.nextLine();
             if ((fio.length()) > 1) {
-                for (PhoneNumber phone : phoneNumbers)
-                    if (fio.equals(phone.getName()){
-                    System.out.println("Абонент найден " + phoneNumbers);
+                for (PhoneNumber phone : phoneNumbers) {
+                    if (fio.equals(phone.getName())) {
+                        System.out.println("Абонент найден " + phoneNumbers);
+                    }
                 }
 
             } else break;
 
         }
+    }
+    // сортировка списка абонентов по фио
 
-        // сортировка списка абонентов по фио
-
+    static void sortAbonent(List<PhoneNumber> phoneNumbers) {
         phoneNumbers.sort(new Comparator<PhoneNumber>() {
-            @Override
-            public int compare(PhoneNumber o1, PhoneNumber o2) {
-                return (o1.getName().compareTo(o2.getName());
-            }
-        }
+                              @Override
+                              public int compare(PhoneNumber o1, PhoneNumber o2) {
+                                  return (o1.getName().compareTo(o2.getName()));
+                              }
+                          }
         );
-
     }
 
-}}
+
+    public static void main(String[] args) {
+
+        List<PhoneNumber> phoneNumbers = new ArrayList<>();
+
+        Scanner scan = new Scanner(System.in);
+
+        boolean a = true;
+        while (a) {
+            System.out.println("Введите: \n1 для ввода абонентов " +
+                    "\n 2 для удаления \n 3 для поиска абонента \n 4 для сортировки 5 для редактирования и 0 для выхода");
+
+            int i = 0;
+            i = scan.nextInt();
+            switch (i) {
+                case 1:
+                    phoneNumbers.add(addAbonent());
+                    break;
+                case 2:
+                    delAbonent(phoneNumbers);
+                    break;
+                case 3:
+                    findAbonent(phoneNumbers);
+                    break;
+                case 4:
+                    sortAbonent(phoneNumbers);
+                    break;
+                case 5:
+                    editAbonent(phoneNumbers);
+                    break;
+                case 0:
+                    a = false;
+                    break;
+            }
+        }
+    }
+
+}
+
