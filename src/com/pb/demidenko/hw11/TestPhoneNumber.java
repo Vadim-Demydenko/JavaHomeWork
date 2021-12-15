@@ -1,10 +1,18 @@
 package com.pb.demidenko.hw11;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+
+import java.io.BufferedReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.function.Predicate;
 
 public class TestPhoneNumber {
@@ -62,7 +70,7 @@ public class TestPhoneNumber {
 
                         //обновить элемент  по индексу
                         phoneNumbers.set(i, addAbonent());
-                        System.out.println("Данные по аоненту оновлены");
+                        System.out.println("Данные по аоненту обновлены");
 
                     } else {
                         System.out.println("Аонент для редактирования не найден");
@@ -118,7 +126,7 @@ public class TestPhoneNumber {
     }
     // сортировка списка абонентов по фио
 
-    static void sortAbonent(List<PhoneNumber> phoneNumbers) {
+    static void sortAbonentFio(List<PhoneNumber> phoneNumbers) {
         System.out.println("Список абонентов до сортировки: "+ phoneNumbers);
         phoneNumbers.sort(new Comparator<PhoneNumber>() {
                               @Override
@@ -130,18 +138,72 @@ public class TestPhoneNumber {
         System.out.println("Список абонентов после сортировки: "+ phoneNumbers);
     }
 
+    // сортировка списка абонентов по адресу
+
+    static void sortAbonentAdres(List<PhoneNumber> phoneNumbers) {
+        System.out.println("Список абонентов до сортировки: "+ phoneNumbers);
+        phoneNumbers.sort(new Comparator<PhoneNumber>() {
+                              @Override
+                              public int compare(PhoneNumber o1, PhoneNumber o2) {
+                                  return (o1.getAddress().compareTo(o2.getAddress()));
+                              }
+                          }
+        );
+        System.out.println("Список абонентов после сортировки: "+ phoneNumbers);
+    }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
 
         List<PhoneNumber> phoneNumbers = new ArrayList<>();
-
         Scanner scan = new Scanner(System.in);
 
+    //сериализация в жейсон
+
+        ObjectMapper mapper = new ObjectMapper();
+    // для работы с полями типа LocalDate
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(LocalDate.class, new LocalDateSerializer());
+        module.addDeserializer(LocalDate.class, new LocalDateDeserializer());
+        mapper.registerModule(module);
+
+    // Читаем из файла в строку
+        Path path = Paths.get("phoneNumbers.txt");
+        String lineStrStr ="";
+        String line;
+        //Читаем из файла по строчно и формирум строку lineStrStr
+        try (BufferedReader reader = Files.newBufferedReader(path)) {
+            // System.out.println(line);
+            while(( line = reader.readLine()) != null) {
+                lineStrStr = lineStrStr + line;
+            }
+        } catch (Exception ex) {
+            System.out.println("Error with file read: " + ex);
+        }
+        System.out.println( "строка из файла" + lineStrStr);
+
+
+//        List phoneNumbersFile = new ArrayList();
+
+        if (lineStrStr.length() > 0) {
+            //считать из строки в коллекцию
+//            phoneNumbersFile = mapper.readValue(lineStrStr, List.class);
+//           phoneNumbers =  mapper.readValue(lineStrStr , new TypeReference<List<PhoneNumber>>() {});
+            phoneNumbers = (List<PhoneNumber>)mapper.readValue(lineStrStr, List.class);
+            System.out.println("Обратное преобразование из файла JSON в коллекцию:" + phoneNumbers);
+        }
+//        phoneNumbers.addAll(phoneNumbersFile);
+//        System.out.println(" после сложение колллекций" + phoneNumbers);
+        System.out.println("До сортировки в оратном поря");
+        System.out.println(phoneNumbers);
+
+ //       Collections.reverse(phoneNumbers);
+  //      System.out.println("После сортировки в оратном порядке"+phoneNumbers);
         boolean a = true;
         while (a) {
             System.out.println("Введите:  \n 1 для ввода абонентов " +
-                    "\n 2 для удаления \n 3 для поиска абонента \n 4 для сортировки \n 5 для редактирования \n 0 для выхода");
+                    "\n 2 для удаления \n 3 для поиска абонента \n 4 для сортировки по фио  \n 5 " +
+                    "для сортировки по адресу абонента  \n 6 для редактирования \n 0 для выхода");
 
             int i = 0;
             i = scan.nextInt();
@@ -157,9 +219,12 @@ public class TestPhoneNumber {
                     findAbonent(phoneNumbers);
                     break;
                 case 4:
-                    sortAbonent(phoneNumbers);
+                    sortAbonentFio(phoneNumbers);
                     break;
                 case 5:
+                    sortAbonentAdres(phoneNumbers);
+                    break;
+                case 6:
                     editAbonent(phoneNumbers);
                     break;
                 case 0:
@@ -167,6 +232,30 @@ public class TestPhoneNumber {
                     break;
             }
         }
+
+        // записать в строку формата json коллекцию
+        String phoneNumberJson = mapper.writeValueAsString(phoneNumbers);
+        System.out.println("Коллекция в формате жсон "+phoneNumberJson);
+        List<PhoneNumber> phoneNumbers1 = new ArrayList<>();
+        phoneNumbers1 = (List<PhoneNumber>)mapper.readValue(phoneNumberJson, List.class);
+        System.out.println("Коллекция"+phoneNumbers1);
+
+        //записываем строку в файл
+
+
+        try(FileWriter writer = new FileWriter("phoneNumbers.txt", true))
+        {
+            // запись всей строки
+            writer.write(phoneNumberJson);
+            writer.flush();
+        }
+        catch(IOException ex){
+
+            System.out.println(ex.getMessage());
+        }
+
+
+
     }
 
 }
