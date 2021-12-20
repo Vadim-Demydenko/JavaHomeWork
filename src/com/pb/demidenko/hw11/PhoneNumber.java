@@ -3,6 +3,7 @@ package com.pb.demidenko.hw11;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class PhoneNumber {
     private String name;
@@ -61,6 +62,21 @@ public class PhoneNumber {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PhoneNumber that = (PhoneNumber) o;
+        return Objects.equals(name, that.name) && Objects.equals(number, that.number) && Objects.equals(dateOfBirth, that.dateOfBirth) && Objects.equals(address, that.address) && Objects.equals(timeEdit, that.timeEdit);
+    }
+
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, number, dateOfBirth, address, timeEdit);
+    }
+
+
+    @Override
     public String toString() {
         return "PhoneNumber{" +
                 "name='" + name + '\'' +
@@ -69,5 +85,8 @@ public class PhoneNumber {
                 ", address='" + address + '\'' +
                 ", timeEdit=" + timeEdit +
                 '}';
+
+
     }
+
 }

@@ -14,6 +14,7 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class TestPhoneNumber {
 
@@ -81,7 +82,7 @@ public class TestPhoneNumber {
 
         }
     }
-
+/*
     //  удаление абонента по ФИО
 
     static void delAbonent(List<PhoneNumber> phoneNumbers) {
@@ -95,8 +96,8 @@ public class TestPhoneNumber {
                 phoneNumbers.removeIf(new Predicate<PhoneNumber>() {
                                           @Override
                                           public boolean test(PhoneNumber phoneNumber) {
-                                              return finalFio.equals(phoneNumber.getName());
-                                              //return false;
+                                            return  finalFio.equals(phoneNumber.getName());
+
                                           }
                                       }
                 );
@@ -105,6 +106,29 @@ public class TestPhoneNumber {
 
         }
     }
+
+*/
+
+        //  удаление абонента по ФИО использую лямбда выражения
+
+    static void delAbonent(List<PhoneNumber> phoneNumbers) {
+        String fio;
+        Scanner scan = new Scanner(System.in);
+        while (1 > 0) {
+            System.out.println("Введите ФИО абонента для удаления или любой символ для выхода");
+            fio = scan.nextLine();
+            if ((fio.length()) > 1) {
+                String finalFio = fio;
+                if ( phoneNumbers.removeIf((PhoneNumber p) -> finalFio.equals(p.getName()))){
+                    System.out.println("Абонент "+finalFio+" удален !!!" );
+                }else System.out.println("Абонент не найден ");
+
+
+            } else break;
+
+        }
+    }
+
 
     // поиск элемента
     static void findAbonent(List<PhoneNumber> phoneNumbers) {
@@ -124,33 +148,43 @@ public class TestPhoneNumber {
 
         }
     }
+
     // сортировка списка абонентов по фио
 
     static void sortAbonentFio(List<PhoneNumber> phoneNumbers) {
         System.out.println("Список абонентов до сортировки: "+ phoneNumbers);
-        phoneNumbers.sort(new Comparator<PhoneNumber>() {
-                              @Override
-                              public int compare(PhoneNumber o1, PhoneNumber o2) {
-                                  return (o1.getName().compareTo(o2.getName()));
-                              }
-                          }
+        phoneNumbers.sort((o1, o2) -> (o1.getName().compareTo(o2.getName()))
         );
         System.out.println("Список абонентов после сортировки: "+ phoneNumbers);
     }
 
     // сортировка списка абонентов по адресу
+    public static void sortAbonentAdres(List<PhoneNumber> phoneNumbers){
+        System.out.println("Список абонентов до сортировки: "+ phoneNumbers);
+        System.out.println("----------------------------------------");
+        System.out.println("Список абонентов после сортировки:");
+        phoneNumbers.stream()
+                .sorted(Comparator.comparing(PhoneNumber::getName))
+                .forEach(System.out::println);
 
+
+
+    }
+
+
+    /*
     static void sortAbonentAdres(List<PhoneNumber> phoneNumbers) {
         System.out.println("Список абонентов до сортировки: "+ phoneNumbers);
-        phoneNumbers.sort(new Comparator<PhoneNumber>() {
-                              @Override
-                              public int compare(PhoneNumber o1, PhoneNumber o2) {
-                                  return (o1.getAddress().compareTo(o2.getAddress()));
-                              }
-                          }
+        phoneNumbers.sort((o1, o2) -> (o1.getAddress().compareTo(o2.getAddress()))
         );
         System.out.println("Список абонентов после сортировки: "+ phoneNumbers);
     }
+*/
+
+    public static void showAbonent(List<PhoneNumber> phoneNumbers){
+        System.out.println("Список абонентов: " + phoneNumbers);
+    }
+
 
 
     public static void main(String[] args) throws Exception{
@@ -170,7 +204,7 @@ public class TestPhoneNumber {
     // Читаем из файла в строку
         Path path = Paths.get("phoneNumbers.txt");
         String lineStrStr ="";
-        String line;
+        String line="";
         //Читаем из файла по строчно и формирум строку lineStrStr
         try (BufferedReader reader = Files.newBufferedReader(path)) {
             // System.out.println(line);
@@ -203,7 +237,8 @@ public class TestPhoneNumber {
         while (a) {
             System.out.println("Введите:  \n 1 для ввода абонентов " +
                     "\n 2 для удаления \n 3 для поиска абонента \n 4 для сортировки по фио  \n 5 " +
-                    "для сортировки по адресу абонента  \n 6 для редактирования \n 0 для выхода");
+                    "для сортировки по адресу абонента  \n 6 для редактирования \n 7 для просмотра списка абонентов" +
+                    "  \n 0 для выхода");
 
             int i = 0;
             i = scan.nextInt();
@@ -226,6 +261,9 @@ public class TestPhoneNumber {
                     break;
                 case 6:
                     editAbonent(phoneNumbers);
+                    break;
+                case 7:
+                    showAbonent(phoneNumbers);
                     break;
                 case 0:
                     a = false;
