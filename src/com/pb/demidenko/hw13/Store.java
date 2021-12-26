@@ -9,7 +9,7 @@ public class Store {
     protected static List<String> bufer = new ArrayList<>();
 
     public synchronized void get() {
-        System.out.println("bufr v get " + bufer);
+        System.out.println("До работы get bufer v get " + bufer);
         while (bufer.size() == 0) {
             try {
                 wait();
@@ -17,8 +17,9 @@ public class Store {
             catch (InterruptedException e) {
             }
         }
-        bufer.remove(product-1);
         product--;
+        bufer.remove(product);
+
 
         System.out.println("Потребитель забрал 1 товар");
         System.out.println("Товары на складе" + bufer);
@@ -26,7 +27,7 @@ public class Store {
         notify();
     }
     public synchronized  void put() {
-        System.out.println("bufr v put " + bufer);
+        System.out.println("До работы put bufr v put " + bufer);
         while (bufer.size() >= 2) {
             try {
                 wait();
