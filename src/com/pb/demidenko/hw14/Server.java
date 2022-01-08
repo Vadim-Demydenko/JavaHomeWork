@@ -43,8 +43,6 @@ public class Server {
                 }
 
                 System.out.println("Закрываем соединение с клиентом");
-                // Тоже говорим клиенту "exit" и выходим из цикла
-//                        out.write("exit");
                 out.close();
                 in.close();
                 socket.close();
