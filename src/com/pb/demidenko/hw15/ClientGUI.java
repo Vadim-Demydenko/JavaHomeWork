@@ -9,32 +9,26 @@ import javafx.stage.Stage;
 
 import javax.swing.*;
 import javax.xml.soap.Text;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 
-public class ClientGUI extends Application  {
+public class ClientGUI extends Application {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
         launch(args);
+
+
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-//        Parent root = FXMLLoader.load(getClass().getResource("/ClietGUI.fxml"));
-Parent root = FXMLLoader.load(getClass().getResource("ClientGUI.fxml"));
-Scene scene = new Scene(root);
-primaryStage.setScene(scene);
-primaryStage.show();
-        // установка надписи
- //       Text text = new Text("Hello METANIT.COM!");
-//        text.setLayoutY(80);    // установка положения надписи по оси Y
- //       text.setLayoutX(80);   // установка положения надписи по оси X
-/*
-      Group group = new Group();
-        Scene scene = new Scene(group);
+
+        Parent root = FXMLLoader.load(getClass().getResource("ClientGUI.fxml"));
+        Scene scene = new Scene(root);
         primaryStage.setScene(scene);
-        primaryStage.setTitle("JavaFX Application");
-        primaryStage.setWidth(300);
-        primaryStage.setHeight(250);
+        primaryStage.setTitle("Приложение ЭХО-ЧАТ");
         primaryStage.show();
-*/
     }
 }

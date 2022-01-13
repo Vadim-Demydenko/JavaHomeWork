@@ -9,6 +9,6 @@
    <children>
       <Button id="buttonSend" fx:id="buttonSend" layoutX="437.0" layoutY="336.0" mnemonicParsing="false" onAction="#click" prefHeight="25.0" prefWidth="92.0" text="SEND" />
       <TextField id="textSend" fx:id="inuser" layoutX="80.0" layoutY="336.0" prefHeight="25.0" prefWidth="261.0" />
-      <TextArea id="textReceive" layoutX="62.0" layoutY="50.0" prefHeight="200.0" prefWidth="492.0" />
+      <TextArea id="textReceive" fx:id="inserver" layoutX="62.0" layoutY="50.0" prefHeight="200.0" prefWidth="492.0" />
    </children>
 </AnchorPane>
