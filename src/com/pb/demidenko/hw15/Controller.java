@@ -34,6 +34,7 @@ public class Controller {
 
     @FXML
     void click(ActionEvent event) throws Exception {
+
         String serverIp = "127.0.0.1";
         int serverPort = 1234;
 //        System.out.println("Соединяемся с сервером " + serverIp + ":" + serverPort);
@@ -41,12 +42,19 @@ public class Controller {
         Socket server = new Socket(serverIp, serverPort);
         BufferedReader inServerVV = new BufferedReader(new InputStreamReader(server.getInputStream()));
         PrintWriter outServer = new PrintWriter(server.getOutputStream(), true);
-         String vvuser = inuser.getText();
+        String vvuser = inuser.getText(); //считали поле ввода
         outServer.println(vvuser);//отправили серверу поле ввода
         inuser.setText("");
         String dataFromServer = inServerVV.readLine();//
 //        System.out.println(dataFromServer);
-        inserv = inserv + "\n" + dataFromServer;//считали
+        //вывод с новой строки каждого сообщения от сервера
+        if (inserv.isEmpty()){
+            inserv = inserv  + dataFromServer;//считали
+        }
+        else {
+            inserv = inserv + "\n" + dataFromServer;
+        }
+
         inserver.setText(inserv);
 
         inServerVV.close();
